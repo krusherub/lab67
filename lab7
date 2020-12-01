@@ -1,0 +1,226 @@
+import tkinter
+from tkinter import *
+from tkinter.filedialog import asksaveasfile, askopenfile
+from tkinter.messagebox import showerror
+from tkinter import messagebox
+import math
+
+FILE_NAME = "test.txt"
+
+
+def new_file():
+    text.delete("1.0", END)
+
+
+def save_file():
+    data = text.get("1.0", END)
+    out = open(FILE_NAME, "w")
+    out.write(data)
+    out.close()
+
+
+def save_as():
+    out = asksaveasfile(mode="w", defaultextension="txt")
+    data = text.get('1.0', END)
+    try:
+        out.write(data.rstrip())
+    except Exception:
+        return
+
+
+def open_file():
+    global FILE_NAME
+    inp = askopenfile(mode="r")
+    if inp is None:
+        return
+    FILE_NAME = inp.name
+    data = inp.read()
+    text.delete('1.0', END)
+    text.insert('1.0', data)
+
+
+def info():
+    messagebox.showinfo("Info", "Made by Brazhnik Olexandr & Nikitchenko Nazar")
+
+
+def task35():
+    data = text.get("1.0", END)
+
+    if (data[0] == " " or len(data) < 3):
+        showerror(title="Error", message="The word must start with letter and have atleas 2 characters")
+        return
+    result = ""
+
+    for i in range(len(data) - 1):
+        if (data[i] == " "):
+            text.delete('1.0', END)
+            text.insert("1.0", result)
+            break
+        result += data[i]
+
+    a = result[::-1]
+    if result.upper() == a.upper():
+        messagebox.showinfo("Result", result + " - palindrome")
+    else:
+        messagebox.showinfo("Result", result + " - not a palindrome")
+
+
+def task3():
+    numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    data = text.get("1.0", END)
+    if (len(data) != 2):
+        showerror(title="Error", message="Input only one number")
+        return
+    dig = data[0]
+    if (dig.isdigit() == False):
+        showerror(title="Error", message="You can input only numbers")
+        return
+    dig = int(dig)
+
+    for i in range(len(numbers)):
+        if (numbers[i] == dig and i != 9):
+            next = numbers[i + 1]
+            messagebox.showinfo("Result", "Next - " + str(next))
+            return
+        if (numbers[i] == dig):
+            next = numbers[0]
+            messagebox.showinfo("Result", "Next - " + str(next))
+            return
+
+
+def task61():
+    alphabet = [
+        'А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г', 'Ґ', 'ґ', 'Д', 'д', 'Е', 'е', 'Є', 'є', 'Ж', 'ж', 'З', 'з', 'И', 'и',
+        'І', 'і',
+        'Ї', 'ї', 'Й', 'й', 'К', 'к', 'Л', 'л', 'М', 'м', 'Н', 'н', 'О', 'о', 'П', 'п', 'Р', 'р', 'С', 'с', 'Т', 'т',
+        'У', 'у',
+        'Ф', 'ф', 'Х', 'х', 'Ц', 'ц', 'Ч', 'ч', 'Ш', 'ш', 'Щ', 'щ', 'Ь', 'ь', 'Ю', 'ю', 'Я', 'я'];
+    data = text.get("1.0", "2.0")
+    if (len(data) < 61):
+        showerror(title="Error", message="You must write at least 60 symbols in the first line")
+        return
+    result = ""
+    for i in range(60):
+        result += data[i]
+    result += "\n"
+    text.delete('1.0', END)
+    text.insert("1.0", result)
+    result1 = ""
+    for val in result:
+        sum = 0
+        for letter in alphabet:
+            if (val == letter):
+                result1 += "-"
+                sum += 1
+                break
+        if (sum == 0):
+            result1 += " "
+    text.insert("2.0", result1)
+
+
+def task17():
+    def str_task17(event):
+        s = ent.get()
+        if (len(s) != 3 or s.isdigit() == False):
+            lab['text'] = "The number is wrong"
+            return
+        c2 = s[0]
+        c1 = s[1]
+        c0 = s[2]
+        lab['text'] = "c2 = " + c2 + " c1 = " + c1 + " c0 = " + c0
+
+    root1 = Tk()
+
+    ent = Entry(root1, width=50, )
+    but = Button(root1, text="Transform")
+    lab = Label(root1, width=50, bg='black', fg='LightCyan')
+
+    but.bind('<Button-1>', str_task17)
+
+    ent.pack()
+    but.pack()
+    lab.pack()
+    root1.mainloop()
+
+def task13():
+    data = text.get("1.0",END)
+    a = str(data)
+    result = ' '.join(a.split())
+    text.delete('1.0', END)
+    text.insert("1.0", result)
+
+def task22():
+    data = text.get("1.0",END)
+    num = int(data, 8)
+    newNum = ''
+    while num > 0:
+        newNum = str(num % 5) + newNum
+        num //= 5
+    text.delete('1.0', END)
+    text.insert("1.0",newNum)
+
+def task31():
+    data = text.get("1.0",END)
+    ao = str(data)
+    a = ao.replace('a', 'A')
+    text.delete('1.0', END)
+    text.insert("1.0", a)
+
+def task33():
+    data = text.get("1.0",END)
+    ao = data.upper()
+    a = ao.count("A")
+    o = ao.count("O")
+    if a > o:
+       messagebox.showinfo("Result", "a>o")
+    elif o > a:
+       messagebox.showinfo("Result", "o>a")
+    elif o == a:
+       messagebox.showinfo("Result", "o=a")
+    else:
+       messagebox.showinfo("Result", "Не має a і o")
+
+
+root = Tk()
+root.title("Lab 6-7")
+
+root.minsize(width=700, height=500)
+
+text = Text(root, width=250, height=500, bg="LightCyan")
+
+scrollb = Scrollbar(root, orient=VERTICAL, command=text.yview)
+scrollb.pack(side="right", fill="y")
+text.configure(yscrollcommand=scrollb.set)
+
+
+text.pack()
+menu_bar = Menu()
+menu_bar2 = Menu()
+menu_bar3 = Menu()
+file_menu = Menu(menu_bar)
+br_menu = Menu(menu_bar2)
+nik_menu = Menu(menu_bar3)
+
+menu_bar.add_cascade(label="File", menu=file_menu)
+menu_bar.add_cascade(label="Info", command=info)
+menu_bar.add_cascade(label="Brazhnik", menu=br_menu)
+menu_bar.add_cascade(label="Nikitchenko", menu=nik_menu)
+
+file_menu.add_command(label="New", command=new_file)
+file_menu.add_command(label="Open", command=open_file)
+file_menu.add_command(label="Save", command=save_file)
+file_menu.add_command(label="Save as", command=save_as)
+file_menu.add_separator()
+file_menu.add_command(label="Exit", command=root.quit)
+
+br_menu.add_command(label="Task3", command=task3)
+br_menu.add_command(label="Task35", command=task35)
+br_menu.add_command(label="Task61", command=task61)
+br_menu.add_command(label="Task16-17", command=task17)
+
+nik_menu.add_command(label="Task13", command=task13)
+nik_menu.add_command(label="Task22", command=task22)
+nik_menu.add_command(label="Task31", command=task31)
+nik_menu.add_command(label="Task33", command=task33)
+root.config(menu=menu_bar)
+root.mainloop()
